@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 import pro.sky.java.course2.employeellistcollectionspart1.data.Employee;
 import pro.sky.java.course2.employeellistcollectionspart1.service.EmployeeService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/employee")
 public class EmployeeController {
@@ -19,13 +21,13 @@ public class EmployeeController {
     @GetMapping("/add")
     public String add(@RequestParam String firstName, @RequestParam String lastName) {
         Employee result = employeeService.add(firstName, lastName);
-        return getMessage(result, "successfully added");
+        return getMessage (result, "successfully added");
     }
 
     @GetMapping("/remove")
     public String remove(@RequestParam String firstName, @RequestParam String lastName) {
         Employee result = employeeService.remove(firstName, lastName);
-        return getMessage(result, "successfully removed");
+        return getMessage (result, "successfully removed");
     }
 
     @GetMapping("/find")
@@ -35,5 +37,10 @@ public class EmployeeController {
 
     private String getMessage(Employee employee, String status) {
         return String.format("Employee %s %s %s.", employee.getFirstName(), employee.getLastName(), status);
+    }
+
+    @GetMapping("/get")
+    public List<Employee> getEmployeesList () {
+        return employeeService.getEmployeesList();
     }
 }

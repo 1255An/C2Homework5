@@ -3,73 +3,63 @@ package pro.sky.java.course2.employeellistcollectionspart1.service;
 import org.springframework.stereotype.Service;
 import pro.sky.java.course2.employeellistcollectionspart1.data.Employee;
 import pro.sky.java.course2.employeellistcollectionspart1.exceptions.EmployeeExistException;
-import pro.sky.java.course2.employeellistcollectionspart1.exceptions.EmployeeListOverflowException;
 import pro.sky.java.course2.employeellistcollectionspart1.exceptions.EmployeeNotFoundException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private final Employee[] employees;
-    private int size;
+    int size;
+
+    List<Employee> employeesList;
 
     public EmployeeServiceImpl() {
-        employees = new Employee[10];
-
+        employeesList = new ArrayList<>();
     }
 
     @Override
     public Employee add(String firstName, String lastName) {
-        Employee newEmployee = new Employee(firstName, lastName);
-        return add(newEmployee);
+        if (!employeeExist(firstName, lastName)) {
+            size++;
+            employeesList.add(new Employee(firstName, lastName));
+            return new Employee(firstName, lastName);
+        }
+        throw new EmployeeExistException();
     }
 
-    @Override
-    public Employee add(Employee employee) {
-        if (size == employees.length) {
-            throw new EmployeeListOverflowException();
-        }
-        int index = indexOf(employee);
-        if (index != -1) {
-            throw new EmployeeExistException();
-        }
-        employees[size++] = employee;
-        return employee;
-    }
 
     @Override
     public Employee remove(String firstName, String lastName) {
-        Employee newEmployee = new Employee(firstName, lastName);
-        return remove(newEmployee);
-    }
-
-    @Override
-    public Employee remove(Employee employee) {
-        int index = indexOf(employee);
-        if (index != -1) {
-            Employee result = employees[index];
-            System.arraycopy(employees, index + 1, employees, index, size - index);
+        int index = employeesList.indexOf(new Employee(firstName, lastName));
+        if (index != -1 && employeeExist(firstName, lastName)) {
             size--;
-            return result;
+            employeesList.remove(new Employee(firstName, lastName));
+            return new Employee(firstName, lastName);
         }
         throw new EmployeeNotFoundException();
     }
 
     @Override
     public Employee find(String firstName, String lastName) {
-        Employee newEmployee = new Employee(firstName, lastName);
-        int index = indexOf(newEmployee);
+        int index = employeesList.indexOf(new Employee(firstName, lastName));
         if (index != -1) {
-            return employees[index];
+            size--;
+            return employeesList.get(index);
         }
         throw new EmployeeNotFoundException();
     }
 
-    private int indexOf(Employee employee) {
-        for (int i = 0; i < size; i++) {
-            if (employees[i].equals(employee)) {
-                return i;
-            }
+    public boolean employeeExist(String firstName, String lastName) {
+        if (employeesList.contains(new Employee(firstName, lastName))) {
+            return true;
+        } else {
+            return false;
         }
-        return -1;
+    }
+
+    public List<Employee> getEmployeesList() {
+        return employeesList;
     }
 }
