@@ -26,7 +26,7 @@ public class EmployeeController {
 
     @GetMapping("/remove")
     public String remove(@RequestParam String firstName, @RequestParam String lastName) {
-        Employee result = employeeService.(firstName, lastName);
+        Employee result = employeeService.remove(firstName, lastName);
         return getMessage (result, "successfully added");
     }
 

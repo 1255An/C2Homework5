@@ -20,8 +20,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee add(String firstName, String lastName) {
         if (!employeeExist(firstName, lastName)) {
-          employeesList.add(new Employee(firstName, lastName));
-            return ;
+            Employee employeeAdded = new Employee(firstName, lastName);
+          employeesList.add(employeeAdded);
+            return employeeAdded;
         }
         throw new EmployeeExistException();
     }
@@ -30,8 +31,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee remove(String firstName, String lastName) {
         int index = employeesList.indexOf(new Employee(firstName, lastName));
         if (employeeExist(firstName, lastName)) {
-            employeesList.remove(new Employee(firstName, lastName));
-            return new Employee(firstName, lastName);
+            Employee emloyeeRemoved = new Employee(firstName,lastName);
+            employeesList.remove(emloyeeRemoved);
+            return emloyeeRemoved;
         }
         throw new EmployeeNotFoundException();
     }
