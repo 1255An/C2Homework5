@@ -21,13 +21,13 @@ public class EmployeeController {
     @GetMapping("/add")
     public String add(@RequestParam String firstName, @RequestParam String lastName) {
         Employee result = employeeService.add(firstName, lastName);
-        return getMessage(result, "successfully added");
+        return getMessage (result, "successfully added");
     }
 
     @GetMapping("/remove")
     public String remove(@RequestParam String firstName, @RequestParam String lastName) {
-        Employee result = employeeService.remove(firstName, lastName);
-        return getMessage(result, "successfully removed");
+        Employee result = employeeService.(firstName, lastName);
+        return getMessage (result, "successfully added");
     }
 
     @GetMapping("/find")
@@ -40,7 +40,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/get")
-    public List<Employee> getEmployeesList() {
+    public List<Employee> getEmployeesList () {
         return employeeService.getEmployeesList();
     }
 }
