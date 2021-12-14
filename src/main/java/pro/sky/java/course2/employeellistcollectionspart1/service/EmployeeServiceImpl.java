@@ -5,53 +5,76 @@ import pro.sky.java.course2.employeellistcollectionspart1.data.Employee;
 import pro.sky.java.course2.employeellistcollectionspart1.exceptions.EmployeeExistException;
 import pro.sky.java.course2.employeellistcollectionspart1.exceptions.EmployeeNotFoundException;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    List<Employee> employeesList;
+    Map<String, Employee> employees;
+
 
     public EmployeeServiceImpl() {
-        employeesList = new ArrayList<>();
+        this.employees = new HashMap<>();
     }
 
     @Override
     public Employee add(String firstName, String lastName) {
-        if (!employeeExist(firstName, lastName)) {
-            Employee employeeAdded = new Employee(firstName, lastName);
-          employeesList.add(employeeAdded);
-            return employeeAdded;
+        Employee newEmployee = new Employee(firstName, lastName);
+        return add(newEmployee);
+    }
+
+    @Override
+    public Employee add(Employee employee) {
+        if (employeeExist(employee)) {
+            throw new EmployeeExistException();
+        } else {
+            employees.put(getFullName(employee.getFirstName(), employee.getLastName()), employee);
+            return employee;
         }
-        throw new EmployeeExistException();
     }
 
     @Override
     public Employee remove(String firstName, String lastName) {
-        int index = employeesList.indexOf(new Employee(firstName, lastName));
-        if (employeeExist(firstName, lastName)) {
-            Employee emloyeeRemoved = new Employee(firstName,lastName);
-            employeesList.remove(emloyeeRemoved);
-            return emloyeeRemoved;
+        Employee newEmployee = new Employee(firstName, lastName);
+        return remove(newEmployee);
+    }
+
+    @Override
+    public Employee remove(Employee employee) {
+        if (!employeeExist(employee)) {
+            throw new EmployeeNotFoundException();
+        } else {
+            employees.remove(getFullName(employee.getFirstName(), employee.getLastName()), employee);
+            return employee;
         }
-        throw new EmployeeNotFoundException();
     }
 
     @Override
     public Employee find(String firstName, String lastName) {
-        int index = employeesList.indexOf(new Employee(firstName, lastName));
-        if (employeeExist(firstName, lastName)) {
-            return employeesList.get(index);
+        Employee employee = new Employee(firstName, lastName);
+        if (!employeeExist(employee)) {
+            throw new EmployeeNotFoundException();
         }
-        throw new EmployeeNotFoundException();
+        return employee;
     }
 
-    public boolean employeeExist(String firstName, String lastName) {
-            return employeesList.contains(new Employee(firstName, lastName));
-        }
+    public boolean employeeExist(Employee employee) {
+        return employees.containsKey(getFullName(employee.getFirstName(), employee.getLastName()));
+    }
 
-    public List<Employee> getEmployeesList() {
-        return employeesList;
+    public Collection<Employee> getAllEmployees() {
+        for (Map.Entry<String, Employee> employeeBook : employees.entrySet()) {
+        }
+        return employees.values();
+    }
+
+
+    private static String getFullName(String name, String lastName) {
+        String fullName = name + lastName;
+        return fullName;
     }
 }
+
