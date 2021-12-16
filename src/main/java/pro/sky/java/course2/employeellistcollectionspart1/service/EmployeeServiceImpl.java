@@ -8,7 +8,6 @@ import pro.sky.java.course2.employeellistcollectionspart1.exceptions.EmployeeNot
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -31,7 +30,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (employeeExist(employee)) {
             throw new EmployeeExistException();
         } else {
-            employees.put(getFullName(employee.getFirstName(), employee.getLastName()), employee);
+            employees.put(employee.getFullName(
+                    employee.getFirstName(),
+                    employee.getLastName()), employee);
             return employee;
         }
     }
@@ -47,7 +48,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (!employeeExist(employee)) {
             throw new EmployeeNotFoundException();
         } else {
-            employees.remove(getFullName(employee.getFirstName(), employee.getLastName()), employee);
+            employees.remove(employee.getFullName(
+                    employee.getFirstName(),
+                    employee.getLastName()), employee);
             return employee;
         }
     }
@@ -62,19 +65,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     public boolean employeeExist(Employee employee) {
-        return employees.containsKey(getFullName(employee.getFirstName(), employee.getLastName()));
+        return employees.containsKey(employee.getFullName(
+                employee.getFirstName(),
+                employee.getLastName()));
     }
 
     public Collection<Employee> getAllEmployees() {
-        for (Map.Entry<String, Employee> employeeBook : employees.entrySet()) {
-        }
         return employees.values();
-    }
-
-
-    private static String getFullName(String name, String lastName) {
-        String fullName = name + lastName;
-        return fullName;
     }
 }
 
