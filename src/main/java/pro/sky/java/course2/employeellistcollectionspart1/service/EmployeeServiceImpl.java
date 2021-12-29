@@ -1,12 +1,13 @@
 package pro.sky.java.course2.employeellistcollectionspart1.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import pro.sky.java.course2.employeellistcollectionspart1.data.Employee;
 import pro.sky.java.course2.employeellistcollectionspart1.exceptions.EmployeeExistException;
 import pro.sky.java.course2.employeellistcollectionspart1.exceptions.EmployeeNotFoundException;
+import pro.sky.java.course2.employeellistcollectionspart1.exceptions.InvalidName;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -29,7 +30,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (employeeExist(employee)) {
             throw new EmployeeExistException();
         }
-        employees.put(key, employee);
+        if (isNameValid(employee)) {
+            employees.put(key, employee);
+        }
         return employee;
     }
 
@@ -46,7 +49,6 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new EmployeeNotFoundException();
         }
         employees.remove(key, employee);
-        ;
         return employee;
     }
 
@@ -77,6 +79,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employees.containsKey(key);
     }
 
+    public boolean isNameValid(Employee employee) {
+        String key = getKey(employee);
+        if (!StringUtils.isAlphaSpace(key)) {
+            throw new InvalidName();
+        }
+        //    StringUtils.capitalize(getKey(employee));
+        return true;
+    }
 
 }
 
