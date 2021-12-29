@@ -16,6 +16,4 @@ public interface EmployeeService {
     Employee findEmployee(String firstName, String lastName, Integer departmentId, Integer salary);
 
     Collection<Employee> getAllEmployees();
-
-
 }

@@ -20,20 +20,21 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee addEmployee(String firstName, String lastName, Integer departmentId, Integer salary) {
-        Employee newEmployee = new Employee(firstName, lastName, departmentId, salary);
+        Employee newEmployee = new Employee(StringUtils.capitalize(firstName),
+                StringUtils.capitalize(lastName),
+                departmentId, salary);
         return addEmployee(newEmployee);
     }
 
     @Override
     public Employee addEmployee(Employee employee) {
         String key = getKey(employee);
-        if (employeeExist(employee)) {
+        if (!employeeExist(employee) && isNameValid(employee)) {
+            employees.put(key, employee);
+            return employee;
+        } else {
             throw new EmployeeExistException();
         }
-        if (isNameValid(employee)) {
-            employees.put(key, employee);
-        }
-        return employee;
     }
 
     @Override
@@ -84,9 +85,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (!StringUtils.isAlphaSpace(key)) {
             throw new InvalidName();
         }
-        //    StringUtils.capitalize(getKey(employee));
         return true;
     }
-
 }
+
 
