@@ -37,4 +37,9 @@ public class Employee {
         return String.format("Employee %s %s",
                 firstName, lastName);
     }
+
+    public static String getFullName(String name, String lastName) {
+        String fullName = name + lastName;
+        return fullName;
+    }
 }

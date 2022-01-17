@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class EmployeeExistException extends RuntimeException {
 
     public EmployeeExistException() {
-        super("Employee list already has  this employee");
+        super("Employee's book already has this employee");
     }
 }
