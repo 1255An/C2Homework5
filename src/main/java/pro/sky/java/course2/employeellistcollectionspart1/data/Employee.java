@@ -5,10 +5,15 @@ import java.util.Objects;
 public class Employee {
     private final String firstName;
     private final String lastName;
+    private Integer departmentId;
+    private Integer salary;
 
-    public Employee(String firstName, String lastName) {
+    public Employee(String firstName, String lastName, Integer departmentId, Integer salary) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.departmentId = departmentId;
+        this.salary = salary;
+
     }
 
     public String getFirstName() {
@@ -19,27 +24,40 @@ public class Employee {
         return lastName;
     }
 
+    public Integer getDepartmentId() {
+        return departmentId;
+    }
+
+    public Integer getSalary() {
+        return salary;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Employee)) return false;
         Employee employee = (Employee) o;
-        return firstName.equals(employee.firstName) && lastName.equals(employee.lastName);
+        return departmentId == employee.departmentId &&
+                salary == employee.salary &&
+                firstName.equals(employee.firstName) &&
+                lastName.equals(employee.lastName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName);
+        return Objects.hash(firstName, lastName, departmentId, salary);
     }
 
     @Override
     public String toString() {
-        return String.format("Employee %s %s",
-                firstName, lastName);
+        return "Employee{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", department=" + departmentId +
+                ", salary=" + salary +
+                '}';
     }
 
-    public static String getFullName(String name, String lastName) {
-        String fullName = name + lastName;
-        return fullName;
-    }
+
 }

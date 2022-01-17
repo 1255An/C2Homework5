@@ -20,28 +20,44 @@ public class EmployeeController {
     }
 
     @GetMapping("/add")
-    public String add(@RequestParam String firstName, @RequestParam String lastName) {
-        Employee result = employeeService.add(firstName, lastName);
+    public String addEmployee(@RequestParam String firstName,
+                              @RequestParam String lastName,
+                              @RequestParam Integer departmentId,
+                              @RequestParam Integer salary) {
+        Employee result = employeeService.addEmployee(firstName, lastName, departmentId, salary);
         return getMessage(result, "successfully added");
     }
 
     @GetMapping("/remove")
-    public String remove(@RequestParam String firstName, @RequestParam String lastName) {
-        Employee result = employeeService.remove(firstName, lastName);
+    public String removeEmployee(@RequestParam String firstName,
+                                 @RequestParam String lastName,
+                                 @RequestParam Integer departmentId,
+                                 Integer salary) {
+        Employee result = employeeService.removeEmployee(firstName, lastName, departmentId, salary);
         return getMessage(result, "successfully removed");
     }
 
     @GetMapping("/find")
-    public Employee find(@RequestParam String firstName, @RequestParam String lastName) {
-        return employeeService.find(firstName, lastName);
-    }
-
-    private String getMessage(Employee employee, String status) {
-        return String.format("Employee %s %s %s.", employee.getFirstName(), employee.getLastName(), status);
+    public Employee findEmployee(@RequestParam String firstName,
+                                 @RequestParam String lastName,
+                                 @RequestParam Integer departmentId,
+                                 Integer salary) {
+        return employeeService.findEmployee(firstName, lastName, departmentId, salary);
     }
 
     @GetMapping("/get/employees")
     public Collection<Employee> getAllEmployees() {
         return employeeService.getAllEmployees();
     }
+
+    private String getMessage(Employee employee, String status) {
+        return String.format("Employee %s %s %s %s %s %s %s.",
+                employee.getFirstName(),
+                employee.getLastName(),
+                "department: ", employee.getDepartmentId(),
+                "salary: ", employee.getSalary(),
+                status);
+    }
+
+
 }
