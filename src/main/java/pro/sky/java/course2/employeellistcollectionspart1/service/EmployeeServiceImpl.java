@@ -34,8 +34,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee removeEmployee(String firstName, String lastName, Integer departmentId, Integer salary) {
-        Employee newEmployee = new Employee(firstName, lastName, departmentId, salary);
+    public Employee removeEmployee(String firstName, String lastName) {
+        Employee newEmployee = new Employee(firstName, lastName);
         return removeEmployee(newEmployee);
     }
 
@@ -51,10 +51,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee findEmployee(String firstName, String lastName, Integer departmentId, Integer salary) {
+    public Employee findEmployee(String firstName, String lastName) {
         String key = getKey(firstName, lastName);
         Employee employee = employees.get(key);
-        if (!employeeExist(employee)) {
+        if (employee == null) {
             throw new EmployeeNotFoundException();
         }
         return employee;

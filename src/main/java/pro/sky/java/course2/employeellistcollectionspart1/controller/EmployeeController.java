@@ -30,19 +30,15 @@ public class EmployeeController {
 
     @GetMapping("/remove")
     public String removeEmployee(@RequestParam String firstName,
-                                 @RequestParam String lastName,
-                                 @RequestParam Integer departmentId,
-                                 Integer salary) {
-        Employee result = employeeService.removeEmployee(firstName, lastName, departmentId, salary);
+                                 @RequestParam String lastName) {
+        Employee result = employeeService.removeEmployee(firstName, lastName);
         return getMessage(result, "successfully removed");
     }
 
     @GetMapping("/find")
     public Employee findEmployee(@RequestParam String firstName,
-                                 @RequestParam String lastName,
-                                 @RequestParam Integer departmentId,
-                                 Integer salary) {
-        return employeeService.findEmployee(firstName, lastName, departmentId, salary);
+                                 @RequestParam String lastName) {
+        return employeeService.findEmployee(firstName, lastName);
     }
 
     @GetMapping("/get/employees")
