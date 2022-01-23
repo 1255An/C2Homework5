@@ -8,7 +8,6 @@ import pro.sky.java.course2.employeellistcollectionspart1.data.Employee;
 import pro.sky.java.course2.employeellistcollectionspart1.service.EmployeeService;
 
 import java.util.Collection;
-import java.util.List;
 
 @RestController
 @RequestMapping("/employee")
@@ -58,6 +57,4 @@ public class EmployeeController {
                 "salary: ", employee.getSalary(),
                 status);
     }
-
-
 }

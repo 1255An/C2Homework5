@@ -1,12 +1,13 @@
 package pro.sky.java.course2.employeellistcollectionspart1.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import pro.sky.java.course2.employeellistcollectionspart1.data.Employee;
 import pro.sky.java.course2.employeellistcollectionspart1.exceptions.EmployeeExistException;
 import pro.sky.java.course2.employeellistcollectionspart1.exceptions.EmployeeNotFoundException;
+import pro.sky.java.course2.employeellistcollectionspart1.exceptions.InvalidName;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -19,18 +20,25 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee addEmployee(String firstName, String lastName, Integer departmentId, Integer salary) {
-        Employee newEmployee = new Employee(firstName, lastName, departmentId, salary);
-        return addEmployee(newEmployee);
+        if (isNameValid(firstName, lastName)) {
+            Employee newEmployee = new Employee(StringUtils.capitalize(firstName),
+                    StringUtils.capitalize(lastName),
+                    departmentId, salary);
+            return addEmployee(newEmployee);
+        } else {
+            throw new InvalidName();
+        }
     }
 
     @Override
     public Employee addEmployee(Employee employee) {
         String key = getKey(employee);
-        if (employeeExist(employee)) {
+        if (!employeeExist(employee)) {
+            employees.put(key, employee);
+            return employee;
+        } else {
             throw new EmployeeExistException();
         }
-        employees.put(key, employee);
-        return employee;
     }
 
     @Override
@@ -46,7 +54,6 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new EmployeeNotFoundException();
         }
         employees.remove(key, employee);
-        ;
         return employee;
     }
 
@@ -77,6 +84,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employees.containsKey(key);
     }
 
-
+    public boolean isNameValid(String firstName, String lastName) {
+        return (StringUtils.isAlphaSpace(firstName) && StringUtils.isAlphaSpace(lastName));
+    }
 }
 

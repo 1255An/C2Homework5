@@ -10,12 +10,11 @@ import java.util.stream.Collectors;
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
 
+    private final EmployeeService employeeService;
+
     public DepartmentServiceImpl(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
-
-    private final EmployeeService employeeService;
-
 
     public Employee getMaxSalaryEmployeeInDepartment(Integer departmentId) {
         return employeeService.getAllEmployees().stream()
