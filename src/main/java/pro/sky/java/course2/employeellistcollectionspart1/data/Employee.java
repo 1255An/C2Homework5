@@ -8,6 +8,10 @@ public class Employee {
     private Integer departmentId;
     private Integer salary;
 
+    public Employee(String firstName, String lastName) {
+        this(firstName, lastName, 0, 0);
+    }
+
     public Employee(String firstName, String lastName, Integer departmentId, Integer salary) {
         this.firstName = firstName;
         this.lastName = lastName;

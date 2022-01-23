@@ -9,6 +9,7 @@ import pro.sky.java.course2.employeellistcollectionspart1.service.DepartmentServ
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/employee")
@@ -36,7 +37,7 @@ public class DepartmentController {
     }
 
     @GetMapping("/departments/all")
-    public Collection<Employee> getAllEmployeesInDepartment() {
-        return departmentService.getAllEmployeesInDepartment();
+    public Map<Integer, List<Employee>> getAllEmployeesDividedByDepartment() {
+        return departmentService.getAllEmployeesDividedByDepartment();
     }
 }

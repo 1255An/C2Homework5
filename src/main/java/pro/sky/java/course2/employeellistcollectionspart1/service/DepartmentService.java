@@ -16,5 +16,5 @@ public interface DepartmentService {
 
     Collection<Employee> getAllEmployeesFromDepartment(Integer department);
 
-    Collection<Employee> getAllEmployeesInDepartment();
+    Map<Integer, List<Employee>> getAllEmployeesDividedByDepartment();
 }
